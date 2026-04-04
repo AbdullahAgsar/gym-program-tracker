@@ -1,0 +1,24 @@
+[
+  {
+    "id": "3522b2e4-3d14-4405-baf0-8a7c40f01782",
+    "userId": "11111111-1111-1111-1111-111111111111",
+    "name": "göğüs ikili",
+    "exercises": [
+      {
+        "exerciseId": "7a0cd362-f06d-4d14-b916-4e4eac04fade",
+        "muscleGroup": "legs",
+        "targetSets": 3,
+        "targetReps": 10,
+        "targetWeight": 0
+      },
+      {
+        "exerciseId": "a992ab41-419b-41e8-8d1d-d91cade263ce",
+        "muscleGroup": "legs",
+        "targetSets": 3,
+        "targetReps": 10,
+        "targetWeight": 0
+      }
+    ],
+    "createdAt": "2026-04-04T20:20:40.621Z"
+  }
+]

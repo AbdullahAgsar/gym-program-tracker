@@ -1,0 +1,1082 @@
+[
+  {
+    "id": "15019c49-501b-4a51-92f6-4f8febb4721e",
+    "name": "Squat",
+    "muscleGroup": "legs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "7a0cd362-f06d-4d14-b916-4e4eac04fade",
+    "name": "Leg Press",
+    "muscleGroup": "legs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "f722aeb8-c92a-4063-9268-41bd2ee0e3e3",
+    "name": "Hack Squat",
+    "muscleGroup": "legs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "c115117d-d6db-421a-b8cb-cdc74f2bad23",
+    "name": "Goblet Squat",
+    "muscleGroup": "legs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "0149243f-9e32-44aa-a35d-a203dd2a8836",
+    "name": "Sumo Squat",
+    "muscleGroup": "legs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "038f3239-7bae-4d4f-9c86-816eafab13fe",
+    "name": "Bulgarian Split Squat",
+    "muscleGroup": "legs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "5739ca82-34e5-4322-84f1-40d2b39ea47d",
+    "name": "Öne Adım (Lunge)",
+    "muscleGroup": "legs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "8243a8bd-a597-45b0-b837-183b1d6ebe88",
+    "name": "Yürüyen Lunge",
+    "muscleGroup": "legs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "07a5a5aa-3236-46ff-896d-7fc0c539c799",
+    "name": "Romanian Deadlift",
+    "muscleGroup": "legs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "d32e0ff0-3917-46d0-b5e0-f9576da206c2",
+    "name": "Leg Extension",
+    "muscleGroup": "legs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "a992ab41-419b-41e8-8d1d-d91cade263ce",
+    "name": "Leg Curl",
+    "muscleGroup": "legs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "fcbceaae-7884-4c02-8cd8-9482e8c2621a",
+    "name": "Ayakta Leg Curl",
+    "muscleGroup": "legs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "f191c552-6326-4956-a0d5-2a74f7c61b07",
+    "name": "Calf Raise (Ayakta)",
+    "muscleGroup": "legs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "6324b9ba-cbf2-4b33-9928-6ec1d53d97f9",
+    "name": "Calf Raise (Oturarak)",
+    "muscleGroup": "legs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "984c9b8d-96ac-46fe-9270-b70300f15025",
+    "name": "Glute Bridge",
+    "muscleGroup": "legs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "92842042-b6e4-4124-bd38-1c38a53054c0",
+    "name": "Hip Thrust",
+    "muscleGroup": "legs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "2d0d39f8-4796-4688-8398-b76788c17b5b",
+    "name": "Step Up",
+    "muscleGroup": "legs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "da45358b-e901-464b-aa25-71966a85e389",
+    "name": "Box Jump",
+    "muscleGroup": "legs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "225adb92-0280-4b0c-881c-176dec24bcbc",
+    "name": "Wall Sit",
+    "muscleGroup": "legs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "e6f05825-deb6-485a-aeda-1df6d9fa992b",
+    "name": "Sissy Squat",
+    "muscleGroup": "legs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "5179d21b-eedd-4c10-8706-fa721c0cdf9d",
+    "name": "Bench Press (Düz)",
+    "muscleGroup": "chest",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "943e3e43-1c7d-4837-81cb-d158833a0dcd",
+    "name": "Bench Press (Eğimli / İncline)",
+    "muscleGroup": "chest",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "8ed2b409-1aa4-47aa-a801-1eeb6f6b3f64",
+    "name": "Bench Press (Düşüş / Decline)",
+    "muscleGroup": "chest",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "f6d910c4-c020-4ab4-8939-488939548bd3",
+    "name": "Dumbbell Bench Press (Düz)",
+    "muscleGroup": "chest",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "c132c818-fb21-4c01-b552-8755a3559e20",
+    "name": "Dumbbell Bench Press (İncline)",
+    "muscleGroup": "chest",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "9cacab68-f343-4b58-9dab-1168e4521ba6",
+    "name": "Dumbbell Fly (Düz)",
+    "muscleGroup": "chest",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "7ad93828-5044-4811-a9c4-50f7e32045b9",
+    "name": "Dumbbell Fly (İncline)",
+    "muscleGroup": "chest",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "0392046e-6a88-495c-bfe8-696b99656ff8",
+    "name": "Cable Fly (Orta)",
+    "muscleGroup": "chest",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "c21a94c6-d3ee-4ade-8428-0ffc4863ba0f",
+    "name": "Cable Fly (Yukarıdan)",
+    "muscleGroup": "chest",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "f68c181c-6e2d-4294-b285-7897a0df91f1",
+    "name": "Cable Fly (Aşağıdan)",
+    "muscleGroup": "chest",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "140739fb-ff4f-4edc-a081-4220a10b79d3",
+    "name": "Pec Deck (Kelebek)",
+    "muscleGroup": "chest",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "7ae3a156-ac28-4704-910b-ee388b505a58",
+    "name": "Şınav (Push-up)",
+    "muscleGroup": "chest",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "3eb6f5db-609e-4c06-b7fb-ae1d13887259",
+    "name": "Geniş Tutuş Şınav",
+    "muscleGroup": "chest",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "eadb2d76-35c8-4e28-bf8b-d26e92b09e02",
+    "name": "Dips (Göğüs)",
+    "muscleGroup": "chest",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "8b1bed45-63ec-433f-94bc-93190c0031c7",
+    "name": "Landmine Press",
+    "muscleGroup": "chest",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "e589b17c-3896-4550-9753-1eb570b72de5",
+    "name": "Barfiks (Pull-up)",
+    "muscleGroup": "back",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "f60917d7-5f82-4f93-be14-56a7dbfa4b2e",
+    "name": "Chin-up",
+    "muscleGroup": "back",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "660aa449-d000-40c1-8c08-15f9b260c11f",
+    "name": "Lat Pulldown (Geniş Tutuş)",
+    "muscleGroup": "back",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "ce4db1dc-75a9-48cd-8005-c7f471492bef",
+    "name": "Lat Pulldown (Dar Tutuş)",
+    "muscleGroup": "back",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "8ad533a7-bf8b-4c47-b48f-1ebfc0409e7a",
+    "name": "Lat Pulldown (Ters Tutuş)",
+    "muscleGroup": "back",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "4c1d65bc-1466-4c27-b5cb-b67a3901948e",
+    "name": "Seated Cable Row (Geniş Tutuş)",
+    "muscleGroup": "back",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "b1b2e35d-dda3-49c9-a2b4-e96a319457b9",
+    "name": "Seated Cable Row (Dar Tutuş)",
+    "muscleGroup": "back",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "0d25cb5a-9f08-4559-870f-e485aef7c0cc",
+    "name": "Bent Over Barbell Row",
+    "muscleGroup": "back",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "4cd6fe51-ccb3-4f67-b5ce-fa1f6226a0d0",
+    "name": "Bent Over Dumbbell Row",
+    "muscleGroup": "back",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "f44a5f56-6daa-4093-8181-30e9dd27208b",
+    "name": "T-Bar Row",
+    "muscleGroup": "back",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "f63d5f23-37ab-400f-86db-8f4429a9708a",
+    "name": "Tek Kol Dumbbell Row",
+    "muscleGroup": "back",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "1a4059b1-6ca5-4dd1-8d7a-bae27d6820e1",
+    "name": "Deadlift",
+    "muscleGroup": "back",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "65c03f53-a833-4551-bdae-696bf51269ed",
+    "name": "Rack Pull",
+    "muscleGroup": "back",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "52703c44-cab3-4e19-b497-a597e8f5c370",
+    "name": "Hyperextension",
+    "muscleGroup": "back",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "79118849-4e8e-4d60-b7cf-b1e548a6347a",
+    "name": "Good Morning",
+    "muscleGroup": "back",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "a4385990-2053-4217-b24b-573c66205808",
+    "name": "Straight Arm Pulldown",
+    "muscleGroup": "back",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "7446b432-ca4d-43c9-98b6-0c8d8ae075e0",
+    "name": "Pendlay Row",
+    "muscleGroup": "back",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "82ccf447-7b53-4280-b512-7ab2425191b9",
+    "name": "Meadows Row",
+    "muscleGroup": "back",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "dadf3e86-38da-4212-badd-c620d7a2ec3e",
+    "name": "Barbell Overhead Press",
+    "muscleGroup": "shoulder",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "d4268e99-e58b-44a7-acca-81a0dfc17b8a",
+    "name": "Dumbbell Shoulder Press",
+    "muscleGroup": "shoulder",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "59d17619-1db3-4305-bf13-3cb0aa22f4a0",
+    "name": "Arnold Press",
+    "muscleGroup": "shoulder",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "a2ad8b39-8509-4e55-9e71-0d7938f837e8",
+    "name": "Lateral Raise (Yan Kaldırma)",
+    "muscleGroup": "shoulder",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "b596c7f8-0ced-4c36-b20e-449f9c438d17",
+    "name": "Cable Lateral Raise",
+    "muscleGroup": "shoulder",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "1db8b9b2-2878-4a45-aa96-485a14860e3f",
+    "name": "Front Raise (Ön Kaldırma)",
+    "muscleGroup": "shoulder",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "f95c1f31-c979-45da-abce-65128e28c9ab",
+    "name": "Rear Delt Fly (Dumbbell)",
+    "muscleGroup": "shoulder",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "d88ca598-5692-4603-9acd-636b8b59a345",
+    "name": "Rear Delt Fly (Kablo)",
+    "muscleGroup": "shoulder",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "8a8c0ae9-feb2-4ccc-bfdd-8ec901827b98",
+    "name": "Face Pull",
+    "muscleGroup": "shoulder",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "502a8ab4-b93d-4cec-87b3-3917eee0146f",
+    "name": "Upright Row (Barbell)",
+    "muscleGroup": "shoulder",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "f188285f-bffe-4fb7-aae3-a1e00c8c6133",
+    "name": "Upright Row (Kablo)",
+    "muscleGroup": "shoulder",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "3c950459-5bfb-4dd8-8cd3-0b60f0a29640",
+    "name": "Barbell Shrug",
+    "muscleGroup": "shoulder",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "923f7acb-2226-40aa-89dc-7563f19458f4",
+    "name": "Dumbbell Shrug",
+    "muscleGroup": "shoulder",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "cec661b8-1b0a-41ad-9c46-d1c9ac4a14f8",
+    "name": "Landmine Lateral Raise",
+    "muscleGroup": "shoulder",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "fa79cb74-5d25-48d6-b75b-a8d830630de6",
+    "name": "Barbell Curl",
+    "muscleGroup": "upperArm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "7ea10f25-66c0-4614-9911-02e938a869a0",
+    "name": "Dumbbell Curl",
+    "muscleGroup": "upperArm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "69fb8397-803c-43e8-bbed-4e6eb04469eb",
+    "name": "Hammer Curl",
+    "muscleGroup": "upperArm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "76443100-1d12-4d77-99ac-199c9bd50699",
+    "name": "Preacher Curl (Vaiz)",
+    "muscleGroup": "upperArm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "4e430a0e-4170-44ef-ac28-be8754d58d2e",
+    "name": "Concentration Curl",
+    "muscleGroup": "upperArm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "4a04fe00-72d1-41e8-b681-8f7b11d1b001",
+    "name": "Cable Curl",
+    "muscleGroup": "upperArm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "43580b16-0c59-4d59-89a4-cc0342608028",
+    "name": "İncline Dumbbell Curl",
+    "muscleGroup": "upperArm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "a6c272b9-907c-40d6-b5d8-d42a125ae1ee",
+    "name": "Spider Curl",
+    "muscleGroup": "upperArm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "b59128aa-5715-4aa9-aa2e-a393246c827b",
+    "name": "Zottman Curl",
+    "muscleGroup": "upperArm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "62f33fa4-998c-40f7-bfbb-e329db81cd00",
+    "name": "Reverse Barbell Curl",
+    "muscleGroup": "upperArm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "1aedd34b-f4cf-40c1-b92e-a5d972f60fb7",
+    "name": "Skull Crusher (EZ Bar)",
+    "muscleGroup": "upperArm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "232917eb-2e47-4805-9df2-f53a6c893082",
+    "name": "Skull Crusher (Dumbbell)",
+    "muscleGroup": "upperArm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "b1a6943a-c271-4e33-a6e3-45cb302a43d7",
+    "name": "Tricep Pushdown (Düz Bar)",
+    "muscleGroup": "upperArm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "fcc06db6-e65d-4e00-8090-6b128ddebd36",
+    "name": "Tricep Pushdown (V-Bar)",
+    "muscleGroup": "upperArm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "8f657fa3-dc1b-4289-929c-2032bcc2b0e5",
+    "name": "Tricep Pushdown (İp)",
+    "muscleGroup": "upperArm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "e6188ca6-5f1a-4d91-8645-9c22ffb423b9",
+    "name": "Overhead Tricep Extension (Kablo)",
+    "muscleGroup": "upperArm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "ecdec9a5-5892-407a-a9ce-6e3929f63dea",
+    "name": "Overhead Tricep Extension (Dumbbell)",
+    "muscleGroup": "upperArm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "28d1d547-15dc-417b-9eb2-ec096fe2feec",
+    "name": "Dar Tutuş Bench Press",
+    "muscleGroup": "upperArm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "bccdfd47-4ea3-495d-a66c-340b2ac09b84",
+    "name": "Dips (Tricep)",
+    "muscleGroup": "upperArm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "452d36ff-fa28-4ca8-9fdf-272e54d5f282",
+    "name": "Tricep Kickback",
+    "muscleGroup": "upperArm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "3341d693-5d55-47e7-9620-30ed4d0b92ac",
+    "name": "Wrist Curl (Avuç İçi Yukarı)",
+    "muscleGroup": "forearm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "9613cd49-89f9-4d05-8b96-686a01509fbd",
+    "name": "Reverse Wrist Curl (Avuç İçi Aşağı)",
+    "muscleGroup": "forearm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "8264b14c-28a5-434a-8c78-1b192c5602d4",
+    "name": "Behind-the-Back Wrist Curl",
+    "muscleGroup": "forearm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "bff6e57c-03fa-4c44-8f22-e6c8c61c5a07",
+    "name": "Reverse Curl",
+    "muscleGroup": "forearm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "9bb904a2-091b-44ea-97c0-f2dafe06e246",
+    "name": "Farmer's Walk",
+    "muscleGroup": "forearm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "eb305e3c-1fa2-4795-b09f-a58a2f96638a",
+    "name": "Dead Hang",
+    "muscleGroup": "forearm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "17a1e285-5be4-4ee2-9126-68292f18a6ab",
+    "name": "Plate Pinch",
+    "muscleGroup": "forearm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "caed0cd1-cf60-43d7-a726-631c66395ecb",
+    "name": "Wrist Roller",
+    "muscleGroup": "forearm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "a595de13-5dc5-4bf1-bfb8-ad775f200e96",
+    "name": "Gripper Egzersizi",
+    "muscleGroup": "forearm",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "16144e13-5bdd-4021-9ebe-9a0827f06dda",
+    "name": "Bilek Fleksiyonu (Dumbbell)",
+    "muscleGroup": "wrist",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "f6f206a2-7c08-4dca-836c-3c14224ccbc8",
+    "name": "Bilek Ekstansiyonu (Dumbbell)",
+    "muscleGroup": "wrist",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "7bbbbb03-f436-4fda-8a9e-7a4b3bcf98d9",
+    "name": "Bilek Rotasyonu",
+    "muscleGroup": "wrist",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "f3115f22-a9f8-492e-88ea-254b1bf35698",
+    "name": "Bilek Germe (Fleksiyon)",
+    "muscleGroup": "wrist",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "b709489d-6873-45de-a221-4114604ec2bc",
+    "name": "Bilek Germe (Ekstansiyon)",
+    "muscleGroup": "wrist",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "af9798f3-07b1-45fb-b807-699b4f6d13a1",
+    "name": "Lateral Bilek Eğimi",
+    "muscleGroup": "wrist",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "1dff4275-7290-4723-b6ff-4b79f88533e4",
+    "name": "Crunch",
+    "muscleGroup": "abs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "f2b5db38-5444-4a29-aa78-9f816f9765f9",
+    "name": "Decline Crunch",
+    "muscleGroup": "abs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "9a60834b-c21b-43bd-ab12-626e9ecfa643",
+    "name": "Cable Crunch",
+    "muscleGroup": "abs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "25d8e274-93a8-4662-a93b-e091f4043744",
+    "name": "Sit-up",
+    "muscleGroup": "abs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "cf91088c-c950-4647-881f-280a50f5c650",
+    "name": "Plank",
+    "muscleGroup": "abs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "362b69b5-438e-4236-a68c-fef976a790c6",
+    "name": "Side Plank",
+    "muscleGroup": "abs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "8e3fc0d6-3516-42c9-9a66-a8525374aa05",
+    "name": "Leg Raise (Yerde)",
+    "muscleGroup": "abs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "f5876387-5160-4b0b-9401-2b193eaea213",
+    "name": "Hanging Leg Raise",
+    "muscleGroup": "abs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "9a4b7e9b-beb8-4435-9a6e-4278cd175cf2",
+    "name": "Toes to Bar",
+    "muscleGroup": "abs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "e3f36332-750a-4085-a152-93945024b325",
+    "name": "Russian Twist",
+    "muscleGroup": "abs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "33140caf-61c9-40c7-91ed-af05848deb25",
+    "name": "Bicycle Crunch",
+    "muscleGroup": "abs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "688bb410-213c-4deb-bf15-8f6a37ca7ee9",
+    "name": "Mountain Climber",
+    "muscleGroup": "abs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "7a97b9ab-5439-43fa-8975-4e4d4ece10bc",
+    "name": "Ab Wheel Rollout",
+    "muscleGroup": "abs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "b7651f98-dbea-43b6-a11f-5d866a356d34",
+    "name": "V-up",
+    "muscleGroup": "abs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "df26a6f0-979c-45e1-a05f-568b34079d30",
+    "name": "Dead Bug",
+    "muscleGroup": "abs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "4a722bf9-5508-4c75-a684-e56caa463d20",
+    "name": "Dragon Flag",
+    "muscleGroup": "abs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "df780c6f-a59d-4fbc-b4ba-419f83c4d723",
+    "name": "Hollow Hold",
+    "muscleGroup": "abs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "177c1d41-b816-40f4-9557-b2833417ccad",
+    "name": "Windshield Wiper",
+    "muscleGroup": "abs",
+    "scope": "global",
+    "status": "approved",
+    "createdBy": "11111111-1111-1111-1111-111111111111",
+    "createdAt": "2026-04-04T00:00:00Z"
+  }
+]

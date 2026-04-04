@@ -1,0 +1,18 @@
+[
+  {
+    "id": "11111111-1111-1111-1111-111111111111",
+    "username": "abdullah",
+    "password": "$2b$10$rhw8/4p2Po/S/b8Lxt7APuyc43v0uKsYtvIou0RX2OrJeycwd9ft.",
+    "role": "admin",
+    "status": "active",
+    "createdAt": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111112",
+    "username": "test",
+    "password": "$2b$10$rhw8/4p2Po/S/b8Lxt7APuyc43v0uKsYtvIou0RX2OrJeycwd9ft.",
+    "role": "user",
+    "status": "active",
+    "createdAt": "2026-04-04T00:00:00Z"
+  }
+]
