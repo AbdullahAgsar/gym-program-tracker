@@ -26,7 +26,6 @@ builder:
   local: true
   arch: amd64
   remote: false
-  args:
 
 env:
   clear:
