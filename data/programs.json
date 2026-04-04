@@ -20,5 +20,70 @@
       }
     ],
     "createdAt": "2026-04-04T20:20:40.621Z"
+  },
+  {
+    "id": "0d4572a0-2e32-4950-a6ab-73a889f3cb51",
+    "userId": "11111111-1111-1111-1111-111111111111",
+    "name": "testtt",
+    "exercises": [
+      {
+        "exerciseId": "Alternating_Kettlebell_Row",
+        "muscleGroup": "back",
+        "targetSets": 1,
+        "targetReps": 6,
+        "targetWeight": 0
+      }
+    ],
+    "ratings": [],
+    "isPublic": true,
+    "createdAt": "2026-04-04T22:13:03.139Z"
+  },
+  {
+    "id": "c249c7fc-5980-45e3-9a92-877d12a663d9",
+    "userId": "11111111-1111-1111-1111-111111111112",
+    "name": "testtt",
+    "exercises": [
+      {
+        "exerciseId": "Alternating_Kettlebell_Row",
+        "muscleGroup": "back",
+        "targetSets": 1,
+        "targetReps": 6,
+        "targetWeight": 0
+      }
+    ],
+    "ratings": [],
+    "isPublic": false,
+    "createdAt": "2026-04-04T22:13:55.510Z"
+  },
+  {
+    "id": "2630dfdf-4b07-4267-afa8-d0ce535b0365",
+    "userId": "11111111-1111-1111-1111-111111111111",
+    "name": "testtttt",
+    "exercises": [
+      {
+        "exerciseId": "Dancers_Stretch",
+        "muscleGroup": "back",
+        "targetSets": 3,
+        "targetReps": 10,
+        "targetWeight": 0
+      },
+      {
+        "exerciseId": "Deadlift_with_Chains",
+        "muscleGroup": "back",
+        "targetSets": 3,
+        "targetReps": 10,
+        "targetWeight": 0
+      },
+      {
+        "exerciseId": "Dumbbell_Incline_Row",
+        "muscleGroup": "back",
+        "targetSets": 3,
+        "targetReps": 10,
+        "targetWeight": 0
+      }
+    ],
+    "ratings": [],
+    "isPublic": false,
+    "createdAt": "2026-04-04T22:34:01.010Z"
   }
 ]

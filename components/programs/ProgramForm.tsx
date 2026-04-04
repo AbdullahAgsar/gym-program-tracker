@@ -55,8 +55,8 @@ export function ProgramForm({ initial, onSuccess, onCancel }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-      <div className="flex flex-col gap-1.5">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-5 h-full">
+      <div className="flex flex-col gap-1.5 px-1">
         <Label htmlFor="prog-name">Program Adı</Label>
         <Input
           id="prog-name"
@@ -67,9 +67,11 @@ export function ProgramForm({ initial, onSuccess, onCancel }: Props) {
         />
       </div>
 
-      <ExerciseSelector value={exercises} onChange={setExercises} />
+      <div className="flex-1 min-h-0 px-1">
+        <ExerciseSelector value={exercises} onChange={setExercises} />
+      </div>
 
-      <div className="flex gap-2 justify-end">
+      <div className="flex gap-2 justify-end shrink-0 pt-2 border-t px-1">
         <Button type="button" variant="outline" onClick={onCancel}>
           İptal
         </Button>

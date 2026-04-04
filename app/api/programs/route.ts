@@ -38,6 +38,7 @@ export async function POST(request: NextRequest) {
     name: body.name.trim(),
     exercises: body.exercises,
     ratings: [],
+    isPublic: false,
     createdAt: new Date().toISOString(),
   };
 

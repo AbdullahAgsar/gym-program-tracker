@@ -123,6 +123,18 @@ export function WorkoutLogger({ date, log, programs, exercises, onSaved }: Props
     );
   }
 
+  function removeSet(exerciseId: string, setIndex: number) {
+    setLogExercises((prev) =>
+      prev.map((le) => {
+        if (le.exerciseId !== exerciseId || le.sets.length <= 1) return le;
+        const sets = le.sets
+          .filter((_, i) => i !== setIndex)
+          .map((s, i) => ({ ...s, setNumber: i + 1 }));
+        return { ...le, sets, completed: sets.every((s) => s.done) };
+      })
+    );
+  }
+
   async function handleSave() {
     setSaving(true);
     try {
@@ -239,17 +251,20 @@ export function WorkoutLogger({ date, log, programs, exercises, onSaved }: Props
 
             {!isCollapsed && (
               <div className="flex flex-col gap-1 p-3">
-                <div className="grid grid-cols-[auto_1fr_1fr_auto] gap-2 px-2 mb-1">
+                <div className="grid grid-cols-[auto_1fr_1fr_auto_auto] gap-2 px-2 mb-1">
                   <span className="text-xs text-muted-foreground w-8 text-center">Set</span>
                   <span className="text-xs text-muted-foreground">Tekrar</span>
                   <span className="text-xs text-muted-foreground">Ağırlık</span>
                   <span className="text-xs text-muted-foreground w-8 text-center">✓</span>
+                  <span className="w-8" />
                 </div>
                 {le.sets.map((set, i) => (
                   <SetRow
                     key={i}
                     set={set}
+                    canRemove={le.sets.length > 1}
                     onChange={(updated) => updateSet(le.exerciseId, i, updated)}
+                    onRemove={() => removeSet(le.exerciseId, i)}
                   />
                 ))}
                 <Button

@@ -4,6 +4,29 @@ import { getSession } from "@/lib/auth";
 import { MUSCLE_GROUPS, EXERCISE_STATUSES } from "@/lib/constants";
 import type { Exercise } from "@/lib/types";
 
+export async function GET(
+  _request: NextRequest,
+  ctx: RouteContext<"/api/exercises/[id]">
+) {
+  const session = await getSession();
+  if (!session) return NextResponse.json({ error: "Yetkisiz." }, { status: 401 });
+
+  const { id } = await ctx.params;
+  const exercises = readJSON<Exercise>("exercises.json");
+  const exercise = exercises.find((ex) => ex.id === id);
+
+  if (!exercise) return NextResponse.json({ error: "Egzersiz bulunamadı." }, { status: 404 });
+
+  const visible =
+    exercise.scope === "personal"
+      ? exercise.createdBy === session.id
+      : exercise.status === "approved" || session.role === "admin";
+
+  if (!visible) return NextResponse.json({ error: "Egzersiz bulunamadı." }, { status: 404 });
+
+  return NextResponse.json(exercise);
+}
+
 export async function PUT(
   request: NextRequest,
   ctx: RouteContext<"/api/exercises/[id]">
@@ -50,6 +73,8 @@ export async function PUT(
     ...exercise,
     name: body.name?.trim() ?? exercise.name,
     muscleGroup: body.muscleGroup ?? exercise.muscleGroup,
+    level: body.level ?? exercise.level,
+    equipment: body.equipment ?? exercise.equipment,
     mediaUrl: body.mediaUrl ?? exercise.mediaUrl,
     mediaType: body.mediaType ?? exercise.mediaType,
     status: body.status ?? exercise.status,

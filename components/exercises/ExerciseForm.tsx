@@ -44,6 +44,8 @@ export function ExerciseForm({ initial, isAdmin = false, onSuccess, onCancel }: 
   const [status, setStatus] = useState<ExerciseStatus>(
     initial?.status ?? "pending"
   );
+  const [level, setLevel] = useState<string>(initial?.level ?? "");
+  const [equipment, setEquipment] = useState(initial?.equipment ?? "");
   const [mediaUrl, setMediaUrl] = useState(initial?.mediaUrl ?? "");
   const [mediaType, setMediaType] = useState(initial?.mediaType ?? "");
   const [loading, setLoading] = useState(false);
@@ -61,6 +63,8 @@ export function ExerciseForm({ initial, isAdmin = false, onSuccess, onCancel }: 
       name,
       muscleGroup,
       scope,
+      level: level || undefined,
+      equipment: equipment || undefined,
       mediaUrl: mediaUrl || undefined,
       mediaType: mediaType || undefined,
     };
@@ -135,6 +139,30 @@ export function ExerciseForm({ initial, isAdmin = false, onSuccess, onCancel }: 
             <SelectItem value="personal">Kişisel</SelectItem>
           </SelectContent>
         </Select>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        <div className="flex flex-col gap-1.5">
+          <Label>Seviye</Label>
+          <Select value={level} onValueChange={setLevel}>
+            <SelectTrigger>
+              <SelectValue placeholder="Seçiniz…" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="beginner">Başlangıç</SelectItem>
+              <SelectItem value="intermediate">Orta</SelectItem>
+              <SelectItem value="expert">İleri</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <Label>Ekipman</Label>
+          <Input
+            placeholder="Dumbbell, barbell…"
+            value={equipment}
+            onChange={(e) => setEquipment(e.target.value)}
+          />
+        </div>
       </div>
 
       {isAdmin && initial && initial.scope === "global" && (

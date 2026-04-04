@@ -2,23 +2,42 @@
 
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { Check } from "lucide-react";
+import { Check, Minus } from "lucide-react";
 import type { LogSet } from "@/lib/types";
 
 interface Props {
   set: LogSet;
+  canRemove: boolean;
   onChange: (updated: LogSet) => void;
+  onRemove: () => void;
 }
 
-export function SetRow({ set, onChange }: Props) {
+export function SetRow({ set, canRemove, onChange, onRemove }: Props) {
   function toggle() {
     onChange({ ...set, done: !set.done });
+  }
+
+  function handleRepsChange(val: string) {
+    const reps = val === "" ? undefined : Number(val);
+    // tekrar girilince ve ağırlık zaten varsa (ya da ağırlık gerekmiyorsa) otomatik tamamla
+    const done = reps !== undefined && reps > 0 ? true : set.done;
+    onChange({ ...set, reps, done });
+  }
+
+  function handleWeightChange(val: string) {
+    const weight = val === "" ? undefined : Number(val);
+    // ağırlık girilince ve tekrar da varsa otomatik tamamla
+    const done =
+      weight !== undefined && weight > 0 && set.reps !== undefined && set.reps > 0
+        ? true
+        : set.done;
+    onChange({ ...set, weight, done });
   }
 
   return (
     <div
       className={cn(
-        "grid grid-cols-[auto_1fr_1fr_auto] gap-2 items-center p-2 rounded-md transition-colors",
+        "grid grid-cols-[auto_1fr_1fr_auto_auto] gap-2 items-center p-2 rounded-md transition-colors",
         set.done && "bg-green-50 dark:bg-green-950/30"
       )}
     >
@@ -30,12 +49,7 @@ export function SetRow({ set, onChange }: Props) {
         min={0}
         placeholder="Tekrar"
         value={set.reps ?? ""}
-        onChange={(e) =>
-          onChange({
-            ...set,
-            reps: e.target.value === "" ? undefined : Number(e.target.value),
-          })
-        }
+        onChange={(e) => handleRepsChange(e.target.value)}
         className="h-8 text-sm"
       />
       <Input
@@ -44,13 +58,7 @@ export function SetRow({ set, onChange }: Props) {
         step={0.5}
         placeholder="kg"
         value={set.weight ?? ""}
-        onChange={(e) =>
-          onChange({
-            ...set,
-            weight:
-              e.target.value === "" ? undefined : Number(e.target.value),
-          })
-        }
+        onChange={(e) => handleWeightChange(e.target.value)}
         className="h-8 text-sm"
       />
       <button
@@ -64,6 +72,19 @@ export function SetRow({ set, onChange }: Props) {
         )}
       >
         {set.done && <Check size={14} />}
+      </button>
+      <button
+        type="button"
+        onClick={onRemove}
+        disabled={!canRemove}
+        className={cn(
+          "w-8 h-8 rounded-md flex items-center justify-center transition-colors",
+          canRemove
+            ? "text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+            : "text-muted-foreground/30 cursor-not-allowed"
+        )}
+      >
+        <Minus size={14} />
       </button>
     </div>
   );

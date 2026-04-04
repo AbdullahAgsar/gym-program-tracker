@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, useMemo } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +14,7 @@ import { MuscleGroupFilter } from "@/components/exercises/MuscleGroupFilter";
 import { ExerciseCard } from "@/components/exercises/ExerciseCard";
 import { ExerciseForm } from "@/components/exercises/ExerciseForm";
 import { Check, Plus, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 import type { Exercise } from "@/lib/types";
 
 interface Me {
@@ -26,35 +27,96 @@ export default function ExercisesPage() {
   const [me, setMe] = useState<Me | null>(null);
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [muscleGroup, setMuscleGroup] = useState<string | null>(null);
+  const [level, setLevel] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<Exercise | null>(null);
+
+  // Pagination
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  const loadingRef = useRef(false);
 
   // Çoklu seçim
   const [selectMode, setSelectMode] = useState(false);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [approving, setApproving] = useState(false);
 
-  async function fetchMe() {
-    const res = await fetch("/api/auth/me");
-    if (res.ok) setMe(await res.json());
-  }
+  // Search debounce
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedSearch(search), 300);
+    return () => clearTimeout(t);
+  }, [search]);
 
-  const fetchExercises = useCallback(async () => {
-    const params = new URLSearchParams();
-    if (muscleGroup) params.set("muscleGroup", muscleGroup);
-    if (search) params.set("search", search);
-    const res = await fetch(`/api/exercises?${params}`);
-    if (res.ok) setExercises(await res.json());
-  }, [muscleGroup, search]);
+  useEffect(() => {
+    fetch("/api/auth/me").then((r) => { if (r.ok) r.json().then(setMe); });
+  }, []);
 
-  useEffect(() => { fetchMe(); }, []);
-  useEffect(() => { fetchExercises(); }, [fetchExercises]);
+  // Filtre değişince page'i 0'a sıfırla
+  useEffect(() => {
+    setPage(0);
+    setExercises([]);
+    setHasMore(true);
+  }, [muscleGroup, level, debouncedSearch]);
 
-  // Onay bekleyen global egzersizler (sadece admin görür)
-  const pendingExercises = useMemo(
-    () => exercises.filter((ex) => ex.scope === "global" && ex.status === "pending"),
-    [exercises]
+  // Fetch — page veya filtre değişince çalışır
+  useEffect(() => {
+    let active = true;
+    const controller = new AbortController();
+    loadingRef.current = true;
+    setLoading(true);
+
+    (async () => {
+      try {
+        const params = new URLSearchParams({ page: String(page) });
+        if (muscleGroup) params.set("muscleGroup", muscleGroup);
+        if (level) params.set("level", level);
+        if (debouncedSearch) params.set("search", debouncedSearch);
+        const res = await fetch(`/api/exercises?${params}`, { signal: controller.signal });
+        if (!res.ok) return;
+        const json = await res.json();
+        const data: Exercise[] = Array.isArray(json) ? json : (json.data ?? []);
+        const more: boolean = json.hasMore ?? false;
+        setExercises((prev) => (page === 0 ? data : [...prev, ...data]));
+        setHasMore(more);
+      } catch (e) {
+        if (!(e instanceof Error && e.name === "AbortError")) throw e;
+      } finally {
+        if (active) {
+          loadingRef.current = false;
+          setLoading(false);
+        }
+      }
+    })();
+
+    return () => {
+      active = false;
+      controller.abort();
+    };
+  }, [page, muscleGroup, level, debouncedSearch]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // IntersectionObserver — sentinel görününce sonraki sayfayı yükle
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loadingRef.current) {
+          setPage((p) => p + 1);
+        }
+      },
+      { rootMargin: "200px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [hasMore]);
+
+  // Onay bekleyen egzersizler (sadece admin)
+  const pendingExercises = exercises.filter(
+    (ex) => ex.scope === "global" && ex.status === "pending"
   );
 
   function toggleSelectMode() {
@@ -95,7 +157,9 @@ export default function ExercisesPage() {
       toast.success(`${data.approved} egzersiz onaylandı.`);
       setSelectMode(false);
       setSelected(new Set());
-      fetchExercises();
+      setExercises([]);
+      setHasMore(true);
+      setPage(0);
     } catch {
       toast.error("Sunucuya bağlanılamadı.");
     } finally {
@@ -106,9 +170,12 @@ export default function ExercisesPage() {
   async function handleDelete(id: string) {
     if (!confirm("Bu egzersizi silmek istediğine emin misin?")) return;
     const res = await fetch(`/api/exercises/${id}`, { method: "DELETE" });
-    if (res.ok) toast.success("Egzersiz silindi.");
-    else toast.error("Silinemedi.");
-    fetchExercises();
+    if (res.ok) {
+      toast.success("Egzersiz silindi.");
+      setExercises((prev) => prev.filter((ex) => ex.id !== id));
+    } else {
+      toast.error("Silinemedi.");
+    }
   }
 
   function openCreate() {
@@ -123,7 +190,9 @@ export default function ExercisesPage() {
 
   function handleSuccess() {
     setDialogOpen(false);
-    fetchExercises();
+    setExercises([]);
+    setHasMore(true);
+    setPage(0);
   }
 
   const isAdmin = me?.role === "admin";
@@ -161,6 +230,26 @@ export default function ExercisesPage() {
             className="max-w-sm"
           />
           <MuscleGroupFilter value={muscleGroup} onChange={setMuscleGroup} />
+          <div className="flex gap-2">
+            {[
+              { value: null,           label: "Tümü",      active: "bg-foreground text-background border-foreground",         inactive: "border-border text-muted-foreground hover:bg-muted" },
+              { value: "beginner",     label: "Başlangıç", active: "bg-emerald-500 text-white border-emerald-500",            inactive: "border-emerald-300 text-emerald-600 hover:bg-emerald-50 dark:border-emerald-700 dark:text-emerald-400 dark:hover:bg-emerald-950" },
+              { value: "intermediate", label: "Orta",      active: "bg-amber-500 text-white border-amber-500",               inactive: "border-amber-300 text-amber-600 hover:bg-amber-50 dark:border-amber-700 dark:text-amber-400 dark:hover:bg-amber-950" },
+              { value: "expert",       label: "İleri",     active: "bg-rose-500 text-white border-rose-500",                 inactive: "border-rose-300 text-rose-600 hover:bg-rose-50 dark:border-rose-700 dark:text-rose-400 dark:hover:bg-rose-950" },
+            ].map((opt) => (
+              <button
+                key={opt.label}
+                type="button"
+                onClick={() => setLevel(opt.value)}
+                className={cn(
+                  "px-3 py-1.5 rounded-full text-sm border transition-colors",
+                  level === opt.value ? opt.active : opt.inactive
+                )}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
         </>
       )}
 
@@ -185,11 +274,7 @@ export default function ExercisesPage() {
             >
               {allPendingSelected ? "Seçimi Kaldır" : "Tümünü Seç"}
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={toggleSelectMode}
-            >
+            <Button variant="ghost" size="sm" onClick={toggleSelectMode}>
               <X size={15} className="mr-1" />
               İptal
             </Button>
@@ -197,7 +282,7 @@ export default function ExercisesPage() {
         </div>
       )}
 
-      {exercises.length === 0 ? (
+      {exercises.length === 0 && !loading ? (
         <p className="text-muted-foreground text-sm">Egzersiz bulunamadı.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -220,6 +305,13 @@ export default function ExercisesPage() {
           })}
         </div>
       )}
+
+      {/* Sentinel + loading indicator */}
+      <div ref={sentinelRef} className="flex justify-center py-4">
+        {loading && (
+          <div className="w-6 h-6 rounded-full border-2 border-muted-foreground/30 border-t-muted-foreground animate-spin" />
+        )}
+      </div>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent>

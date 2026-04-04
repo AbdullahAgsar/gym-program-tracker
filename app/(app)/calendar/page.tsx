@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { CalendarGrid } from "@/components/calendar/CalendarGrid";
+import { RecentProgress } from "@/components/progress/RecentProgress";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Log } from "@/lib/types";
 
@@ -69,6 +70,8 @@ export default function CalendarPage() {
           <span>Az tamamlandı</span>
         </div>
       </div>
+
+      <RecentProgress />
     </main>
   );
 }

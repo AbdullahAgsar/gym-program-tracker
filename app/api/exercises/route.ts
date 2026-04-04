@@ -12,7 +12,10 @@ export async function GET(request: NextRequest) {
 
   const { searchParams } = new URL(request.url);
   const muscleGroup = searchParams.get("muscleGroup");
+  const level = searchParams.get("level");
   const search = searchParams.get("search")?.toLowerCase();
+  const page = Math.max(0, Number(searchParams.get("page") ?? 0));
+  const limit = 15;
 
   const exercises = readJSON<Exercise>("exercises.json");
 
@@ -25,12 +28,20 @@ export async function GET(request: NextRequest) {
 
     if (!visible) return false;
     if (muscleGroup && ex.muscleGroup !== muscleGroup) return false;
+    if (level && ex.level !== level) return false;
     if (search && !ex.name.toLowerCase().includes(search)) return false;
 
     return true;
   });
 
-  return NextResponse.json(filtered);
+  if (searchParams.get("all") === "true") {
+    return NextResponse.json(filtered);
+  }
+
+  const start = page * limit;
+  const data = filtered.slice(start, start + limit);
+
+  return NextResponse.json({ data, hasMore: start + limit < filtered.length });
 }
 
 export async function POST(request: NextRequest) {
@@ -68,6 +79,7 @@ export async function POST(request: NextRequest) {
     // global egzersizler admin onayı bekler; personal direkt approved
     status: body.scope === "personal" ? "approved" : "pending",
     createdBy: session.id,
+    ratings: [],
     createdAt: new Date().toISOString(),
   };
 

@@ -16,15 +16,30 @@ export interface User {
   createdAt: string;
 }
 
+export interface ExerciseRating {
+  userId: string;
+  rating: number; // 1-5
+  createdAt: string;
+}
+
 export interface Exercise {
   id: string;
   name: string;
   muscleGroup: MuscleGroup;
+  // imported fields
+  instructions?: string[];
+  level?: "beginner" | "intermediate" | "expert";
+  equipment?: string;
+  primaryMuscles?: string[];
+  secondaryMuscles?: string[];
+  images?: string[];        // paths under /exercises/<id>/*.jpg
+  // user-uploaded media (custom exercises)
   mediaUrl?: string;
   mediaType?: MediaType;
   scope: ExerciseScope;
   status: ExerciseStatus;
   createdBy: string;
+  ratings: ExerciseRating[];
   createdAt: string;
 }
 
@@ -48,6 +63,7 @@ export interface Program {
   name: string;
   exercises: ProgramExercise[];
   ratings: ProgramRating[];
+  isPublic: boolean;
   createdAt: string;
 }
 
