@@ -1,0 +1,33 @@
+service: gym
+
+image: gym
+
+registry:
+  server: localhost:5555
+
+servers:
+  web:
+    hosts:
+      - 34.46.188.83
+
+ssh:
+  user: agsar7634
+  keys: ["~/.ssh/gcp-key"]
+
+proxy:
+  ssl: true
+  host: gym.abdullahagsar.com
+  app_port: 3005
+  healthcheck:
+    path: /tr
+    timeout: 120
+
+builder:
+  local: true
+  arch: amd64
+  remote: false
+  args:
+
+env:
+  clear:
+    PORT: "3005"
