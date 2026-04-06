@@ -3,12 +3,13 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 
 # --- Deps stage ---
 FROM base AS deps
-# libc6-compat + build tools for native modules (better-sqlite3)
 RUN apk add --no-cache libc6-compat python3 make g++
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
+# Explicitly build better-sqlite3 native module
+RUN pnpm rebuild better-sqlite3
 
 # --- Builder stage ---
 FROM base AS builder
@@ -35,11 +36,12 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# better-sqlite3 native module — Next.js standalone tracer .node binary'yi otomatik
-# almayabileceğinden açıkça kopyalıyoruz
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/better-sqlite3 ./node_modules/better-sqlite3
+# Copy better-sqlite3 native module (pnpm stores under .pnpm virtual store)
+COPY --from=builder --chown=nextjs:nodejs \
+  /app/node_modules/.pnpm/better-sqlite3@12.8.0/node_modules/better-sqlite3 \
+  ./node_modules/.pnpm/better-sqlite3@12.8.0/node_modules/better-sqlite3
 
-# data/ dizini volume olarak mount edilecek, boş olarak oluştur
+# data/ dizini volume olarak mount edilecek
 RUN mkdir -p /app/data && chown nextjs:nodejs /app/data
 
 USER nextjs
