@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readJSON, writeJSON, generateId } from "@/lib/db";
+import { db, generateId, j } from "@/lib/db";
+import { programs, mapProgram } from "@/lib/schema";
+import { eq } from "drizzle-orm";
 import { getSession } from "@/lib/auth";
-import type { Program } from "@/lib/types";
 
 export async function GET() {
   const session = await getSession();
@@ -9,10 +10,9 @@ export async function GET() {
     return NextResponse.json({ error: "Yetkisiz." }, { status: 401 });
   }
 
-  const programs = readJSON<Program>("programs.json");
-  const mine = programs.filter((p) => p.userId === session.id);
+  const rows = db.select().from(programs).where(eq(programs.userId, session.id)).all();
 
-  return NextResponse.json(mine);
+  return NextResponse.json(rows.map(mapProgram));
 }
 
 export async function POST(request: NextRequest) {
@@ -30,20 +30,20 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const programs = readJSON<Program>("programs.json");
+  const id = generateId();
+  const now = new Date().toISOString();
 
-  const newProgram: Program = {
-    id: generateId(),
+  db.insert(programs).values({
+    id,
     userId: session.id,
     name: body.name.trim(),
-    exercises: body.exercises,
-    ratings: [],
+    exercises: j(body.exercises),
+    ratings: j([]),
     isPublic: false,
-    createdAt: new Date().toISOString(),
-  };
+    createdAt: now,
+  }).run();
 
-  programs.push(newProgram);
-  writeJSON("programs.json", programs);
+  const row = db.select().from(programs).where(eq(programs.id, id)).get()!;
 
-  return NextResponse.json(newProgram, { status: 201 });
+  return NextResponse.json(mapProgram(row), { status: 201 });
 }

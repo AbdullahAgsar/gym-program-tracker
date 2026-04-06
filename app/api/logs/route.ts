@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readJSON, writeJSON, generateId } from "@/lib/db";
+import { db, generateId, j } from "@/lib/db";
+import { logs, mapLog } from "@/lib/schema";
+import { eq, and } from "drizzle-orm";
 import { getSession } from "@/lib/auth";
-import type { Log } from "@/lib/types";
 
 export async function GET() {
   const session = await getSession();
@@ -9,10 +10,9 @@ export async function GET() {
     return NextResponse.json({ error: "Yetkisiz." }, { status: 401 });
   }
 
-  const logs = readJSON<Log>("logs.json");
-  const mine = logs.filter((l) => l.userId === session.id);
+  const rows = db.select().from(logs).where(eq(logs.userId, session.id)).all();
 
-  return NextResponse.json(mine);
+  return NextResponse.json(rows.map(mapLog));
 }
 
 export async function POST(request: NextRequest) {
@@ -26,12 +26,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "date zorunludur." }, { status: 400 });
   }
 
-  const logs = readJSON<Log>("logs.json");
-
   // Aynı gün için zaten log varsa hata dön
-  const existing = logs.find(
-    (l) => l.userId === session.id && l.date === body.date
-  );
+  const existing = db
+    .select()
+    .from(logs)
+    .where(and(eq(logs.userId, session.id), eq(logs.date, body.date)))
+    .get();
+
   if (existing) {
     return NextResponse.json(
       { error: "Bu gün için zaten kayıt var." },
@@ -39,17 +40,19 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const newLog: Log = {
-    id: generateId(),
+  const id = generateId();
+  const now = new Date().toISOString();
+
+  db.insert(logs).values({
+    id,
     userId: session.id,
     date: body.date,
-    programIds: body.programIds ?? [],
-    exercises: body.exercises ?? [],
-    createdAt: new Date().toISOString(),
-  };
+    programIds: j(body.programIds ?? []),
+    exercises: j(body.exercises ?? []),
+    createdAt: now,
+  }).run();
 
-  logs.push(newLog);
-  writeJSON("logs.json", logs);
+  const row = db.select().from(logs).where(eq(logs.id, id)).get()!;
 
-  return NextResponse.json(newLog, { status: 201 });
+  return NextResponse.json(mapLog(row), { status: 201 });
 }

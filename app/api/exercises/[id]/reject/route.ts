@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readJSON, writeJSON } from "@/lib/db";
+import { db } from "@/lib/db";
+import { exercises, mapExercise } from "@/lib/schema";
+import { eq } from "drizzle-orm";
 import { getSession } from "@/lib/auth";
-import type { Exercise } from "@/lib/types";
 
 export async function POST(
   _request: NextRequest,
@@ -13,15 +14,14 @@ export async function POST(
   }
 
   const { id } = await ctx.params;
-  const exercises = readJSON<Exercise>("exercises.json");
-  const index = exercises.findIndex((ex) => ex.id === id);
+  const row = db.select().from(exercises).where(eq(exercises.id, id)).get();
 
-  if (index === -1) {
+  if (!row) {
     return NextResponse.json({ error: "Egzersiz bulunamadı." }, { status: 404 });
   }
 
-  exercises[index] = { ...exercises[index], status: "rejected" };
-  writeJSON("exercises.json", exercises);
+  db.update(exercises).set({ status: "rejected" }).where(eq(exercises.id, id)).run();
 
-  return NextResponse.json(exercises[index]);
+  const updatedRow = db.select().from(exercises).where(eq(exercises.id, id)).get()!;
+  return NextResponse.json(mapExercise(updatedRow));
 }

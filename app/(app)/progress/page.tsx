@@ -14,7 +14,7 @@ export default function ProgressPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch("/api/exercises").then((r) => r.json()),
+      fetch("/api/exercises?all=true").then((r) => r.json()),
       fetch("/api/logs").then((r) => r.json()),
     ]).then(([exData, logData]) => {
       if (Array.isArray(exData)) setExercises(exData);
@@ -22,21 +22,30 @@ export default function ProgressPage() {
     });
   }, []);
 
-  // Kullanıcının log'larında geçen egzersizleri bul
-  const usedExerciseIds = new Set(
-    logs.flatMap((l) => l.exercises.map((e) => e.exerciseId))
-  );
+  const exerciseMap = new Map(exercises.map((ex) => [ex.id, ex]));
 
-  const filtered = exercises.filter(
-    (ex) =>
-      usedExerciseIds.has(ex.id) &&
-      (muscleGroup === null || ex.muscleGroup === muscleGroup)
-  );
+  // Log'larda geçen tüm egzersiz ID'lerini topla (exercises.json'da olmasa bile)
+  const allUsedIds = [
+    ...new Set(logs.flatMap((l) => l.exercises.map((e) => e.exerciseId))),
+  ];
 
-  const results: (ProgressResult & { name: string })[] = filtered.map((ex) => ({
-    ...calcProgress(ex.id, logs),
-    name: ex.name,
-  }));
+  const results: (ProgressResult & { name: string; muscleGroupKey: string | null })[] =
+    allUsedIds
+      .map((id) => {
+        const ex = exerciseMap.get(id);
+        const progress = calcProgress(id, logs);
+        // En az bir session ile ağırlık verisi olmayan egzersizleri gizle
+        if (progress.sessions.length === 0) return null;
+        return {
+          ...progress,
+          name: ex?.name ?? "Bilinmeyen Egzersiz",
+          muscleGroupKey: ex?.muscleGroup ?? null,
+        };
+      })
+      .filter((r): r is NonNullable<typeof r> => r !== null)
+      .filter(
+        (r) => muscleGroup === null || r.muscleGroupKey === muscleGroup
+      );
 
   return (
     <main className="max-w-2xl mx-auto p-6 flex flex-col gap-6">

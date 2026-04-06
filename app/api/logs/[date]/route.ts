@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readJSON, writeJSON, generateId } from "@/lib/db";
+import { db, generateId, j } from "@/lib/db";
+import { logs, mapLog } from "@/lib/schema";
+import { eq, and } from "drizzle-orm";
 import { getSession } from "@/lib/auth";
-import type { Log } from "@/lib/types";
 
 export async function GET(
   _request: NextRequest,
@@ -13,14 +14,17 @@ export async function GET(
   }
 
   const { date } = await ctx.params;
-  const logs = readJSON<Log>("logs.json");
-  const log = logs.find((l) => l.userId === session.id && l.date === date);
+  const row = db
+    .select()
+    .from(logs)
+    .where(and(eq(logs.userId, session.id), eq(logs.date, date)))
+    .get();
 
-  if (!log) {
+  if (!row) {
     return NextResponse.json(null);
   }
 
-  return NextResponse.json(log);
+  return NextResponse.json(mapLog(row));
 }
 
 export async function PUT(
@@ -38,34 +42,40 @@ export async function PUT(
     return NextResponse.json({ error: "Geçersiz istek." }, { status: 400 });
   }
 
-  const logs = readJSON<Log>("logs.json");
-  const index = logs.findIndex(
-    (l) => l.userId === session.id && l.date === date
-  );
+  const row = db
+    .select()
+    .from(logs)
+    .where(and(eq(logs.userId, session.id), eq(logs.date, date)))
+    .get();
 
-  if (index === -1) {
+  if (!row) {
     // Log yoksa oluştur
-    const newLog: Log = {
-      id: generateId(),
+    const id = generateId();
+    const now = new Date().toISOString();
+
+    db.insert(logs).values({
+      id,
       userId: session.id,
       date,
-      programIds: body.programIds ?? [],
-      exercises: body.exercises ?? [],
-      createdAt: new Date().toISOString(),
-    };
-    logs.push(newLog);
-    writeJSON("logs.json", logs);
-    return NextResponse.json(newLog);
+      programIds: j(body.programIds ?? []),
+      exercises: j(body.exercises ?? []),
+      createdAt: now,
+    }).run();
+
+    const newRow = db.select().from(logs).where(eq(logs.id, id)).get()!;
+    return NextResponse.json(mapLog(newRow));
   }
 
-  const updated: Log = {
-    ...logs[index],
-    programIds: body.programIds ?? logs[index].programIds,
-    exercises: body.exercises ?? logs[index].exercises,
-  };
+  db.update(logs).set({
+    programIds: body.programIds !== undefined ? j(body.programIds) : row.programIds,
+    exercises: body.exercises !== undefined ? j(body.exercises) : row.exercises,
+  }).where(and(eq(logs.userId, session.id), eq(logs.date, date))).run();
 
-  logs[index] = updated;
-  writeJSON("logs.json", logs);
+  const updatedRow = db
+    .select()
+    .from(logs)
+    .where(and(eq(logs.userId, session.id), eq(logs.date, date)))
+    .get()!;
 
-  return NextResponse.json(updated);
+  return NextResponse.json(mapLog(updatedRow));
 }

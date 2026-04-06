@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readJSON, writeJSON } from "@/lib/db";
+import { db } from "@/lib/db";
+import { users, mapUser } from "@/lib/schema";
+import { eq } from "drizzle-orm";
 import { getSession } from "@/lib/auth";
 import { USER_STATUSES } from "@/lib/constants";
-import type { User } from "@/lib/types";
 
 export async function PUT(
   request: NextRequest,
@@ -20,16 +21,15 @@ export async function PUT(
     return NextResponse.json({ error: "Geçersiz status." }, { status: 400 });
   }
 
-  const users = readJSON<User>("users.json");
-  const index = users.findIndex((u) => u.id === id);
+  const row = db.select().from(users).where(eq(users.id, id)).get();
 
-  if (index === -1) {
+  if (!row) {
     return NextResponse.json({ error: "Kullanıcı bulunamadı." }, { status: 404 });
   }
 
-  users[index] = { ...users[index], status: body.status };
-  writeJSON("users.json", users);
+  db.update(users).set({ status: body.status }).where(eq(users.id, id)).run();
 
-  const { password: _pwd, ...safe } = users[index];
-  return NextResponse.json(safe);
+  const updatedRow = db.select().from(users).where(eq(users.id, id)).get()!;
+  const u = mapUser(updatedRow);
+  return NextResponse.json({ id: u.id, username: u.username, role: u.role, status: u.status, createdAt: u.createdAt });
 }

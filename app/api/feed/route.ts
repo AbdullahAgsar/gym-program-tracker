@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { readJSON } from "@/lib/db";
+import { db } from "@/lib/db";
+import { exercises, programs, users, mapProgram, mapExercise, mapUser } from "@/lib/schema";
 import { getSession } from "@/lib/auth";
-import type { Program, User, Exercise } from "@/lib/types";
 
 export interface FeedItem {
   programId: string;
@@ -22,14 +22,14 @@ export async function GET() {
     return NextResponse.json({ error: "Yetkisiz." }, { status: 401 });
   }
 
-  const programs = readJSON<Program>("programs.json");
-  const users = readJSON<User>("users.json");
-  const exercises = readJSON<Exercise>("exercises.json");
+  const allPrograms = db.select().from(programs).all().map(mapProgram);
+  const allUsers = db.select().from(users).all().map(mapUser);
+  const allExercises = db.select().from(exercises).all().map(mapExercise);
 
-  const userMap = new Map(users.map((u) => [u.id, u.username]));
-  const exerciseMap = new Map(exercises.map((ex) => [ex.id, ex.name]));
+  const userMap = new Map(allUsers.map((u) => [u.id, u.username]));
+  const exerciseMap = new Map(allExercises.map((ex) => [ex.id, ex.name]));
 
-  const feed: FeedItem[] = programs
+  const feed: FeedItem[] = allPrograms
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
     .map((p) => {
       const ratings = p.ratings ?? [];

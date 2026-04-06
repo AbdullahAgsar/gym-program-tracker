@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
-import { readJSON } from "@/lib/db";
+import { db } from "@/lib/db";
+import { logs, exercises, mapLog, mapExercise } from "@/lib/schema";
+import { eq } from "drizzle-orm";
 import { getSession } from "@/lib/auth";
 import { calcProgress } from "@/lib/progress";
-import type { Log, Exercise } from "@/lib/types";
 
 export interface RecentProgressEvent {
   exerciseId: string;
@@ -18,14 +19,15 @@ export async function GET() {
     return NextResponse.json({ error: "Yetkisiz." }, { status: 401 });
   }
 
-  const logs = readJSON<Log>("logs.json").filter((l) => l.userId === session.id);
-  const exercises = readJSON<Exercise>("exercises.json");
-  const exerciseMap = new Map(exercises.map((ex) => [ex.id, ex.name]));
+  const logRows = db.select().from(logs).where(eq(logs.userId, session.id)).all();
+  const exerciseRows = db.select().from(exercises).all();
 
-  // Her log'dan done=true ve weight>0 olan setler üret → (date, exerciseId, maxWeight)
+  const userLogs = logRows.map(mapLog);
+  const exerciseMap = new Map(exerciseRows.map(mapExercise).map((ex) => [ex.id, ex.name]));
+
   const events: RecentProgressEvent[] = [];
 
-  const sorted = [...logs].sort((a, b) => b.date.localeCompare(a.date));
+  const sorted = [...userLogs].sort((a, b) => b.date.localeCompare(a.date));
 
   for (const log of sorted) {
     for (const le of log.exercises) {
@@ -36,9 +38,8 @@ export async function GET() {
       if (weights.length === 0) continue;
 
       const maxWeight = Math.max(...weights);
-      const progress = calcProgress(le.exerciseId, logs);
+      const progress = calcProgress(le.exerciseId, userLogs);
 
-      // Bu seans, progress.sessions içinde nerede?
       const sessionIndex = progress.sessions.findIndex((s) => s.date === log.date);
       const prevSession = sessionIndex > 0 ? progress.sessions[sessionIndex - 1] : null;
       const delta = prevSession !== null ? maxWeight - prevSession.maxWeight : null;

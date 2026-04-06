@@ -29,7 +29,7 @@ export default function DayPage() {
       const [logRes, programsRes, exercisesRes] = await Promise.all([
         fetch(`/api/logs/${date}`),
         fetch("/api/programs"),
-        fetch("/api/exercises"),
+        fetch("/api/exercises?all=true"),
       ]);
 
       const logData = logRes.ok ? await logRes.json() : null;

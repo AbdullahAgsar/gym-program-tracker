@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readJSON, writeJSON } from "@/lib/db";
+import { db } from "@/lib/db";
+import { exercises } from "@/lib/schema";
+import { eq, and, inArray } from "drizzle-orm";
 import { getSession } from "@/lib/auth";
-import type { Exercise } from "@/lib/types";
 
 export async function POST(request: NextRequest) {
   const session = await getSession();
@@ -14,19 +15,20 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "ids dizisi zorunludur." }, { status: 400 });
   }
 
-  const idSet = new Set<string>(body.ids);
-  const exercises = readJSON<Exercise>("exercises.json");
+  const idArray: string[] = body.ids;
 
-  let count = 0;
-  const updated = exercises.map((ex) => {
-    if (idSet.has(ex.id) && ex.scope === "global" && ex.status === "pending") {
-      count++;
-      return { ...ex, status: "approved" as const };
-    }
-    return ex;
-  });
+  // Only approve global+pending exercises from the given IDs
+  const result = db
+    .update(exercises)
+    .set({ status: "approved" })
+    .where(
+      and(
+        inArray(exercises.id, idArray),
+        eq(exercises.scope, "global"),
+        eq(exercises.status, "pending")
+      )
+    )
+    .run();
 
-  writeJSON("exercises.json", updated);
-
-  return NextResponse.json({ approved: count });
+  return NextResponse.json({ approved: result.changes });
 }

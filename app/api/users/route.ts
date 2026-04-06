@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { readJSON } from "@/lib/db";
+import { db } from "@/lib/db";
+import { users, mapUser } from "@/lib/schema";
 import { getSession } from "@/lib/auth";
-import type { User } from "@/lib/types";
 
 export async function GET() {
   const session = await getSession();
@@ -9,9 +9,11 @@ export async function GET() {
     return NextResponse.json({ error: "Yetkisiz." }, { status: 403 });
   }
 
-  const users = readJSON<User>("users.json").map(
-    ({ password: _pwd, ...rest }) => rest
-  );
+  const rows = db.select().from(users).all();
+  const result = rows.map((row) => {
+    const user = mapUser(row);
+    return { id: user.id, username: user.username, role: user.role, status: user.status, createdAt: user.createdAt };
+  });
 
-  return NextResponse.json(users);
+  return NextResponse.json(result);
 }

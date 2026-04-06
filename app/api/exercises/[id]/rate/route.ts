@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readJSON, writeJSON } from "@/lib/db";
+import { db, j } from "@/lib/db";
+import { exercises } from "@/lib/schema";
+import { eq } from "drizzle-orm";
 import { getSession } from "@/lib/auth";
-import type { Exercise } from "@/lib/types";
+import type { ExerciseRating } from "@/lib/types";
 
 export async function POST(
   request: NextRequest,
@@ -18,11 +20,10 @@ export async function POST(
     return NextResponse.json({ error: "Rating 1-5 arasında tam sayı olmalıdır." }, { status: 400 });
   }
 
-  const exercises = readJSON<Exercise>("exercises.json");
-  const index = exercises.findIndex((ex) => ex.id === id);
-  if (index === -1) return NextResponse.json({ error: "Egzersiz bulunamadı." }, { status: 404 });
+  const row = db.select().from(exercises).where(eq(exercises.id, id)).get();
+  if (!row) return NextResponse.json({ error: "Egzersiz bulunamadı." }, { status: 404 });
 
-  const ratings = exercises[index].ratings ?? [];
+  const ratings: ExerciseRating[] = JSON.parse(row.ratings ?? "[]");
   const existingIndex = ratings.findIndex((r) => r.userId === session.id);
 
   if (existingIndex !== -1) {
@@ -31,8 +32,7 @@ export async function POST(
     ratings.push({ userId: session.id, rating, createdAt: new Date().toISOString() });
   }
 
-  exercises[index] = { ...exercises[index], ratings };
-  writeJSON("exercises.json", exercises);
+  db.update(exercises).set({ ratings: j(ratings) }).where(eq(exercises.id, id)).run();
 
   const avg = ratings.reduce((s, r) => s + r.rating, 0) / ratings.length;
   return NextResponse.json({ average: Math.round(avg * 10) / 10, count: ratings.length, userRating: rating });
@@ -46,13 +46,14 @@ export async function DELETE(
   if (!session) return NextResponse.json({ error: "Yetkisiz." }, { status: 401 });
 
   const { id } = await ctx.params;
-  const exercises = readJSON<Exercise>("exercises.json");
-  const index = exercises.findIndex((ex) => ex.id === id);
-  if (index === -1) return NextResponse.json({ error: "Egzersiz bulunamadı." }, { status: 404 });
+  const row = db.select().from(exercises).where(eq(exercises.id, id)).get();
+  if (!row) return NextResponse.json({ error: "Egzersiz bulunamadı." }, { status: 404 });
 
-  const ratings = (exercises[index].ratings ?? []).filter((r) => r.userId !== session.id);
-  exercises[index] = { ...exercises[index], ratings };
-  writeJSON("exercises.json", exercises);
+  const ratings: ExerciseRating[] = (JSON.parse(row.ratings ?? "[]") as ExerciseRating[]).filter(
+    (r) => r.userId !== session.id
+  );
+
+  db.update(exercises).set({ ratings: j(ratings) }).where(eq(exercises.id, id)).run();
 
   const avg = ratings.length > 0 ? ratings.reduce((s, r) => s + r.rating, 0) / ratings.length : 0;
   return NextResponse.json({ average: Math.round(avg * 10) / 10, count: ratings.length, userRating: null });

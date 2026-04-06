@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readJSON, writeJSON } from "@/lib/db";
+import { db } from "@/lib/db";
+import { exercises, mapExercise } from "@/lib/schema";
+import { eq } from "drizzle-orm";
 import { getSession } from "@/lib/auth";
 import { MUSCLE_GROUPS, EXERCISE_STATUSES } from "@/lib/constants";
-import type { Exercise } from "@/lib/types";
 
 export async function GET(
   _request: NextRequest,
@@ -12,11 +13,11 @@ export async function GET(
   if (!session) return NextResponse.json({ error: "Yetkisiz." }, { status: 401 });
 
   const { id } = await ctx.params;
-  const exercises = readJSON<Exercise>("exercises.json");
-  const exercise = exercises.find((ex) => ex.id === id);
+  const row = db.select().from(exercises).where(eq(exercises.id, id)).get();
 
-  if (!exercise) return NextResponse.json({ error: "Egzersiz bulunamadı." }, { status: 404 });
+  if (!row) return NextResponse.json({ error: "Egzersiz bulunamadı." }, { status: 404 });
 
+  const exercise = mapExercise(row);
   const visible =
     exercise.scope === "personal"
       ? exercise.createdBy === session.id
@@ -37,16 +38,14 @@ export async function PUT(
   }
 
   const { id } = await ctx.params;
-  const exercises = readJSON<Exercise>("exercises.json");
-  const index = exercises.findIndex((ex) => ex.id === id);
+  const row = db.select().from(exercises).where(eq(exercises.id, id)).get();
 
-  if (index === -1) {
+  if (!row) {
     return NextResponse.json({ error: "Egzersiz bulunamadı." }, { status: 404 });
   }
 
-  const exercise = exercises[index];
+  const exercise = mapExercise(row);
 
-  // Sadece sahibi veya admin düzenleyebilir
   if (exercise.createdBy !== session.id && session.role !== "admin") {
     return NextResponse.json({ error: "Yetkisiz." }, { status: 403 });
   }
@@ -64,26 +63,22 @@ export async function PUT(
     return NextResponse.json({ error: "Geçersiz status." }, { status: 400 });
   }
 
-  // Status değişikliği sadece admin yapabilir
   if (body.status && session.role !== "admin") {
     return NextResponse.json({ error: "Yetkisiz." }, { status: 403 });
   }
 
-  const updated: Exercise = {
-    ...exercise,
+  db.update(exercises).set({
     name: body.name?.trim() ?? exercise.name,
     muscleGroup: body.muscleGroup ?? exercise.muscleGroup,
-    level: body.level ?? exercise.level,
-    equipment: body.equipment ?? exercise.equipment,
-    mediaUrl: body.mediaUrl ?? exercise.mediaUrl,
-    mediaType: body.mediaType ?? exercise.mediaType,
+    level: body.level ?? exercise.level ?? null,
+    equipment: body.equipment ?? exercise.equipment ?? null,
+    mediaUrl: body.mediaUrl ?? exercise.mediaUrl ?? null,
+    mediaType: body.mediaType ?? exercise.mediaType ?? null,
     status: body.status ?? exercise.status,
-  };
+  }).where(eq(exercises.id, id)).run();
 
-  exercises[index] = updated;
-  writeJSON("exercises.json", exercises);
-
-  return NextResponse.json(updated);
+  const updatedRow = db.select().from(exercises).where(eq(exercises.id, id)).get()!;
+  return NextResponse.json(mapExercise(updatedRow));
 }
 
 export async function DELETE(
@@ -96,19 +91,19 @@ export async function DELETE(
   }
 
   const { id } = await ctx.params;
-  const exercises = readJSON<Exercise>("exercises.json");
-  const exercise = exercises.find((ex) => ex.id === id);
+  const row = db.select().from(exercises).where(eq(exercises.id, id)).get();
 
-  if (!exercise) {
+  if (!row) {
     return NextResponse.json({ error: "Egzersiz bulunamadı." }, { status: 404 });
   }
+
+  const exercise = mapExercise(row);
 
   if (exercise.createdBy !== session.id && session.role !== "admin") {
     return NextResponse.json({ error: "Yetkisiz." }, { status: 403 });
   }
 
-  const remaining = exercises.filter((ex) => ex.id !== id);
-  writeJSON("exercises.json", remaining);
+  db.delete(exercises).where(eq(exercises.id, id)).run();
 
   return NextResponse.json({ ok: true });
 }

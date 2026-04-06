@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readJSON, writeJSON, generateId } from "@/lib/db";
+import { db, generateId, j } from "@/lib/db";
+import { programs, mapProgram } from "@/lib/schema";
+import { eq } from "drizzle-orm";
 import { getSession } from "@/lib/auth";
-import type { Program } from "@/lib/types";
 
 export async function POST(
   _request: NextRequest,
@@ -13,33 +14,34 @@ export async function POST(
   }
 
   const { id } = await ctx.params;
-  const programs = readJSON<Program>("programs.json");
-  const source = programs.find((p) => p.id === id);
+  const row = db.select().from(programs).where(eq(programs.id, id)).get();
 
-  if (!source) {
+  if (!row) {
     return NextResponse.json({ error: "Program bulunamadı." }, { status: 404 });
   }
 
-  if (!source.isPublic) {
+  if (!row.isPublic) {
     return NextResponse.json({ error: "Bu program herkese açık değil." }, { status: 403 });
   }
 
-  if (source.userId === session.id) {
+  if (row.userId === session.id) {
     return NextResponse.json({ error: "Kendi programını tekrar kaydedemezsin." }, { status: 400 });
   }
 
-  const copy: Program = {
-    id: generateId(),
+  const newId = generateId();
+  const now = new Date().toISOString();
+
+  db.insert(programs).values({
+    id: newId,
     userId: session.id,
-    name: source.name,
-    exercises: source.exercises,
-    ratings: [],
+    name: row.name,
+    exercises: row.exercises,
+    ratings: j([]),
     isPublic: false,
-    createdAt: new Date().toISOString(),
-  };
+    createdAt: now,
+  }).run();
 
-  programs.push(copy);
-  writeJSON("programs.json", programs);
+  const newRow = db.select().from(programs).where(eq(programs.id, newId)).get()!;
 
-  return NextResponse.json(copy, { status: 201 });
+  return NextResponse.json(mapProgram(newRow), { status: 201 });
 }

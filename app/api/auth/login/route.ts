@@ -1,16 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readJSON } from "@/lib/db";
+import { db } from "@/lib/db";
+import { users, mapUser } from "@/lib/schema";
+import { eq } from "drizzle-orm";
 import { signToken, setSessionCookie, verifyPassword } from "@/lib/auth";
-import type { Role, UserStatus } from "@/lib/constants";
-
-interface User {
-  id: string;
-  username: string;
-  password: string;
-  role: Role;
-  status: UserStatus;
-  createdAt: string;
-}
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null);
@@ -22,15 +14,16 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const users = readJSON<User>("users.json");
-  const user = users.find((u) => u.username === body.username);
+  const row = db.select().from(users).where(eq(users.username, body.username)).get();
 
-  if (!user) {
+  if (!row) {
     return NextResponse.json(
       { error: "Kullanıcı adı veya şifre hatalı." },
       { status: 401 }
     );
   }
+
+  const user = mapUser(row);
 
   const passwordOk = await verifyPassword(body.password, user.password);
   if (!passwordOk) {

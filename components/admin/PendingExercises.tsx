@@ -16,7 +16,7 @@ export function PendingExercises() {
   const [exercises, setExercises] = useState<Exercise[]>([]);
 
   const fetch_ = useCallback(async () => {
-    const res = await fetch("/api/exercises");
+    const res = await fetch("/api/exercises?all=true");
     if (!res.ok) return;
     const data: Exercise[] = await res.json();
     setExercises(data.filter((ex) => ex.scope === "global" && ex.status === "pending"));

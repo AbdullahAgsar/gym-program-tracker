@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readJSON, writeJSON } from "@/lib/db";
+import { db, j } from "@/lib/db";
+import { programs } from "@/lib/schema";
+import { eq } from "drizzle-orm";
 import { getSession } from "@/lib/auth";
-import type { Program } from "@/lib/types";
+import type { ProgramRating } from "@/lib/types";
 
 export async function POST(
   request: NextRequest,
@@ -23,45 +25,31 @@ export async function POST(
     );
   }
 
-  const programs = readJSON<Program>("programs.json");
-  const index = programs.findIndex((p) => p.id === id);
+  const row = db.select().from(programs).where(eq(programs.id, id)).get();
 
-  if (index === -1) {
+  if (!row) {
     return NextResponse.json({ error: "Program bulunamadı." }, { status: 404 });
   }
 
-  // Kendi programını puanlayamazsın
-  if (programs[index].userId === session.id) {
+  if (row.userId === session.id) {
     return NextResponse.json(
       { error: "Kendi programını puanlayamazsın." },
       { status: 403 }
     );
   }
 
-  const ratings = programs[index].ratings ?? [];
+  const ratings: ProgramRating[] = JSON.parse(row.ratings ?? "[]");
   const existingIndex = ratings.findIndex((r) => r.userId === session.id);
 
   if (existingIndex !== -1) {
-    // Güncelle
-    ratings[existingIndex] = {
-      userId: session.id,
-      rating,
-      createdAt: new Date().toISOString(),
-    };
+    ratings[existingIndex] = { userId: session.id, rating, createdAt: new Date().toISOString() };
   } else {
-    // Yeni ekle
-    ratings.push({
-      userId: session.id,
-      rating,
-      createdAt: new Date().toISOString(),
-    });
+    ratings.push({ userId: session.id, rating, createdAt: new Date().toISOString() });
   }
 
-  programs[index] = { ...programs[index], ratings };
-  writeJSON("programs.json", programs);
+  db.update(programs).set({ ratings: j(ratings) }).where(eq(programs.id, id)).run();
 
-  const avg =
-    ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length;
+  const avg = ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length;
 
   return NextResponse.json({
     average: Math.round(avg * 10) / 10,
@@ -80,19 +68,17 @@ export async function DELETE(
   }
 
   const { id } = await ctx.params;
-  const programs = readJSON<Program>("programs.json");
-  const index = programs.findIndex((p) => p.id === id);
+  const row = db.select().from(programs).where(eq(programs.id, id)).get();
 
-  if (index === -1) {
+  if (!row) {
     return NextResponse.json({ error: "Program bulunamadı." }, { status: 404 });
   }
 
-  const ratings = (programs[index].ratings ?? []).filter(
+  const ratings: ProgramRating[] = (JSON.parse(row.ratings ?? "[]") as ProgramRating[]).filter(
     (r) => r.userId !== session.id
   );
 
-  programs[index] = { ...programs[index], ratings };
-  writeJSON("programs.json", programs);
+  db.update(programs).set({ ratings: j(ratings) }).where(eq(programs.id, id)).run();
 
   const avg =
     ratings.length > 0

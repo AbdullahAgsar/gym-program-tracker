@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readJSON } from "@/lib/db";
+import { db } from "@/lib/db";
+import { logs, mapLog } from "@/lib/schema";
+import { eq } from "drizzle-orm";
 import { getSession } from "@/lib/auth";
 import { calcProgress } from "@/lib/progress";
-import type { Log } from "@/lib/types";
 
 export async function GET(
   _request: NextRequest,
@@ -14,9 +15,7 @@ export async function GET(
   }
 
   const { exerciseId } = await ctx.params;
-  const logs = readJSON<Log>("logs.json").filter(
-    (l) => l.userId === session.id
-  );
+  const userLogs = db.select().from(logs).where(eq(logs.userId, session.id)).all().map(mapLog);
 
-  return NextResponse.json(calcProgress(exerciseId, logs));
+  return NextResponse.json(calcProgress(exerciseId, userLogs));
 }

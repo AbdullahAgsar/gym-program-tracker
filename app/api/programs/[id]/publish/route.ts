@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readJSON, writeJSON } from "@/lib/db";
+import { db } from "@/lib/db";
+import { programs } from "@/lib/schema";
+import { eq } from "drizzle-orm";
 import { getSession } from "@/lib/auth";
-import type { Program } from "@/lib/types";
 
 export async function POST(
   _request: NextRequest,
@@ -13,19 +14,18 @@ export async function POST(
   }
 
   const { id } = await ctx.params;
-  const programs = readJSON<Program>("programs.json");
-  const index = programs.findIndex((p) => p.id === id);
+  const row = db.select().from(programs).where(eq(programs.id, id)).get();
 
-  if (index === -1) {
+  if (!row) {
     return NextResponse.json({ error: "Program bulunamadı." }, { status: 404 });
   }
 
-  if (programs[index].userId !== session.id) {
+  if (row.userId !== session.id) {
     return NextResponse.json({ error: "Yetkisiz." }, { status: 403 });
   }
 
-  programs[index] = { ...programs[index], isPublic: !programs[index].isPublic };
-  writeJSON("programs.json", programs);
+  const newIsPublic = !row.isPublic;
+  db.update(programs).set({ isPublic: newIsPublic }).where(eq(programs.id, id)).run();
 
-  return NextResponse.json({ isPublic: programs[index].isPublic });
+  return NextResponse.json({ isPublic: newIsPublic });
 }

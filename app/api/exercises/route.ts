@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readJSON, writeJSON, generateId } from "@/lib/db";
+import { db, generateId, j } from "@/lib/db";
+import { exercises, mapExercise } from "@/lib/schema";
+import { eq } from "drizzle-orm";
 import { getSession } from "@/lib/auth";
 import { MUSCLE_GROUPS } from "@/lib/constants";
-import type { Exercise } from "@/lib/types";
 
 export async function GET(request: NextRequest) {
   const session = await getSession();
@@ -17,10 +18,9 @@ export async function GET(request: NextRequest) {
   const page = Math.max(0, Number(searchParams.get("page") ?? 0));
   const limit = 15;
 
-  const exercises = readJSON<Exercise>("exercises.json");
+  const rows = db.select().from(exercises).all();
 
-  const filtered = exercises.filter((ex) => {
-    // personal: sadece sahibi görebilir; global: approved olanlar herkes görür
+  const filtered = rows.map(mapExercise).filter((ex) => {
     const visible =
       ex.scope === "personal"
         ? ex.createdBy === session.id
@@ -67,24 +67,23 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Geçersiz kapsam." }, { status: 400 });
   }
 
-  const exercises = readJSON<Exercise>("exercises.json");
+  const id = generateId();
+  const now = new Date().toISOString();
 
-  const newExercise: Exercise = {
-    id: generateId(),
+  db.insert(exercises).values({
+    id,
     name: body.name.trim(),
     muscleGroup: body.muscleGroup,
-    mediaUrl: body.mediaUrl ?? undefined,
-    mediaType: body.mediaType ?? undefined,
+    mediaUrl: body.mediaUrl ?? null,
+    mediaType: body.mediaType ?? null,
     scope: body.scope,
-    // global egzersizler admin onayı bekler; personal direkt approved
     status: body.scope === "personal" ? "approved" : "pending",
     createdBy: session.id,
-    ratings: [],
-    createdAt: new Date().toISOString(),
-  };
+    ratings: j([]),
+    createdAt: now,
+  }).run();
 
-  exercises.push(newExercise);
-  writeJSON("exercises.json", exercises);
+  const row = db.select().from(exercises).where(eq(exercises.id, id)).get()!;
 
-  return NextResponse.json(newExercise, { status: 201 });
+  return NextResponse.json(mapExercise(row), { status: 201 });
 }

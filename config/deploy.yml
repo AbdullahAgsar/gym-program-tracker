@@ -27,6 +27,9 @@ builder:
   arch: amd64
   remote: false
 
+volumes:
+  - "/var/data/gym:/app/data"
+
 env:
   clear:
     PORT: "3005"

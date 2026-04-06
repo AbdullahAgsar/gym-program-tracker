@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readJSON, writeJSON } from "@/lib/db";
+import { db, j } from "@/lib/db";
+import { programs, mapProgram } from "@/lib/schema";
+import { eq } from "drizzle-orm";
 import { getSession } from "@/lib/auth";
-import type { Program } from "@/lib/types";
 
 export async function PUT(
   request: NextRequest,
@@ -13,14 +14,15 @@ export async function PUT(
   }
 
   const { id } = await ctx.params;
-  const programs = readJSON<Program>("programs.json");
-  const index = programs.findIndex((p) => p.id === id);
+  const row = db.select().from(programs).where(eq(programs.id, id)).get();
 
-  if (index === -1) {
+  if (!row) {
     return NextResponse.json({ error: "Program bulunamadı." }, { status: 404 });
   }
 
-  if (programs[index].userId !== session.id && session.role !== "admin") {
+  const program = mapProgram(row);
+
+  if (program.userId !== session.id && session.role !== "admin") {
     return NextResponse.json({ error: "Yetkisiz." }, { status: 403 });
   }
 
@@ -29,16 +31,13 @@ export async function PUT(
     return NextResponse.json({ error: "Geçersiz istek." }, { status: 400 });
   }
 
-  const updated: Program = {
-    ...programs[index],
-    name: body.name?.trim() ?? programs[index].name,
-    exercises: body.exercises ?? programs[index].exercises,
-  };
+  db.update(programs).set({
+    name: body.name?.trim() ?? program.name,
+    exercises: body.exercises !== undefined ? j(body.exercises) : row.exercises,
+  }).where(eq(programs.id, id)).run();
 
-  programs[index] = updated;
-  writeJSON("programs.json", programs);
-
-  return NextResponse.json(updated);
+  const updatedRow = db.select().from(programs).where(eq(programs.id, id)).get()!;
+  return NextResponse.json(mapProgram(updatedRow));
 }
 
 export async function DELETE(
@@ -51,21 +50,19 @@ export async function DELETE(
   }
 
   const { id } = await ctx.params;
-  const programs = readJSON<Program>("programs.json");
-  const program = programs.find((p) => p.id === id);
+  const row = db.select().from(programs).where(eq(programs.id, id)).get();
 
-  if (!program) {
+  if (!row) {
     return NextResponse.json({ error: "Program bulunamadı." }, { status: 404 });
   }
+
+  const program = mapProgram(row);
 
   if (program.userId !== session.id && session.role !== "admin") {
     return NextResponse.json({ error: "Yetkisiz." }, { status: 403 });
   }
 
-  writeJSON(
-    "programs.json",
-    programs.filter((p) => p.id !== id)
-  );
+  db.delete(programs).where(eq(programs.id, id)).run();
 
   return NextResponse.json({ ok: true });
 }
