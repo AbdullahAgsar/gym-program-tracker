@@ -24,6 +24,7 @@ export function DayCell({ date, isCurrentMonth, isToday, completionPct }: Props)
   return (
     <Link
       href={`/calendar/${date}`}
+      prefetch={false}
       className={cn(
         "aspect-square flex flex-col items-center justify-center rounded-lg text-sm font-medium transition-colors hover:bg-muted",
         !isCurrentMonth && "text-muted-foreground opacity-40",

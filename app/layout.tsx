@@ -17,6 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "GymTracker",
   description: "Kişisel spor programı takip uygulaması",
+  robots: { index: false, follow: false },
 };
 
 export default function RootLayout({
