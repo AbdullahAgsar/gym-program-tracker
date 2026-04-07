@@ -20,6 +20,57 @@ const sqlite = new Database(DB_PATH);
 sqlite.pragma("journal_mode = WAL");
 sqlite.pragma("foreign_keys = ON");
 
+// ─── Create tables if not exists ──────────────────────────────────────────────
+sqlite.exec(`
+  CREATE TABLE IF NOT EXISTS users (
+    id TEXT PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    role TEXT NOT NULL DEFAULT 'user',
+    status TEXT NOT NULL DEFAULT 'pending',
+    created_at TEXT NOT NULL
+  );
+
+  CREATE TABLE IF NOT EXISTS exercises (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    muscle_group TEXT NOT NULL,
+    instructions TEXT,
+    level TEXT,
+    equipment TEXT,
+    primary_muscles TEXT,
+    secondary_muscles TEXT,
+    images TEXT,
+    media_url TEXT,
+    media_type TEXT,
+    scope TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'pending',
+    created_by TEXT NOT NULL,
+    ratings TEXT NOT NULL DEFAULT '[]',
+    created_at TEXT NOT NULL
+  );
+
+  CREATE TABLE IF NOT EXISTS programs (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL,
+    name TEXT NOT NULL,
+    exercises TEXT NOT NULL DEFAULT '[]',
+    ratings TEXT NOT NULL DEFAULT '[]',
+    is_public INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL
+  );
+
+  CREATE TABLE IF NOT EXISTS logs (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL,
+    date TEXT NOT NULL,
+    program_ids TEXT NOT NULL DEFAULT '[]',
+    exercises TEXT NOT NULL DEFAULT '[]',
+    created_at TEXT NOT NULL
+  );
+`);
+console.log("✓ Tables ready");
+
 const j = (v) => JSON.stringify(v ?? null);
 
 // ─── Users ────────────────────────────────────────────────────────────────────
