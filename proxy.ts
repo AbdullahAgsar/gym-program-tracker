@@ -7,7 +7,7 @@ const SECRET = new TextEncoder().encode(
 
 const COOKIE_NAME = "gym_token";
 
-const PUBLIC_PATHS = ["/login"];
+const PUBLIC_PATHS = ["/login", "/register"];
 const ADMIN_PATHS = ["/admin"];
 
 export async function proxy(request: NextRequest) {

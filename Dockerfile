@@ -41,6 +41,9 @@ COPY --from=builder --chown=nextjs:nodejs \
   /app/node_modules/.pnpm/better-sqlite3@12.8.0/node_modules/better-sqlite3 \
   ./node_modules/.pnpm/better-sqlite3@12.8.0/node_modules/better-sqlite3
 
+# Migration script (tek seferlik JSON → SQLite aktarımı için)
+COPY --from=builder --chown=nextjs:nodejs /app/scripts ./scripts
+
 # data/ dizini volume olarak mount edilecek
 RUN mkdir -p /app/data && chown nextjs:nodejs /app/data
 
