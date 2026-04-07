@@ -5,8 +5,10 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SetRow } from "./SetRow";
-import { ChevronDown, ChevronUp, Plus, Save } from "lucide-react";
+import { ChevronDown, ChevronUp, Plus, Save, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { ExerciseSheet } from "@/components/exercises/ExerciseSheet";
 import type { Log, Program, Exercise, LogExercise, LogSet } from "@/lib/types";
 
 const MUSCLE_LABELS: Record<string, string> = {
@@ -31,6 +33,7 @@ export function WorkoutLogger({ date, log, programs, exercises, onSaved }: Props
   );
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
   const [saving, setSaving] = useState(false);
+  const [sheetExerciseId, setSheetExerciseId] = useState<string | null>(null);
 
   const exerciseMap = new Map(exercises.map((ex) => [ex.id, ex]));
 
@@ -168,6 +171,8 @@ export function WorkoutLogger({ date, log, programs, exercises, onSaved }: Props
   const pct = totalSets > 0 ? Math.round((doneSets / totalSets) * 100) : 0;
 
   return (
+    <>
+    <ExerciseSheet exerciseId={sheetExerciseId} onClose={() => setSheetExerciseId(null)} />
     <div className="flex flex-col gap-6">
       {/* Program seçimi */}
       <div className="flex flex-col gap-2">
@@ -179,19 +184,28 @@ export function WorkoutLogger({ date, log, programs, exercises, onSaved }: Props
         ) : (
           <div className="flex flex-wrap gap-2">
             {programs.map((p) => (
-              <button
-                key={p.id}
-                type="button"
-                onClick={() => toggleProgram(p.id)}
-                className={cn(
-                  "px-3 py-1.5 rounded-full border text-sm font-medium transition-colors",
-                  selectedProgramIds.includes(p.id)
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "border-border hover:bg-muted"
-                )}
-              >
-                {p.name}
-              </button>
+              <div key={p.id} className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => toggleProgram(p.id)}
+                  className={cn(
+                    "px-3 py-1.5 rounded-full border text-sm font-medium transition-colors",
+                    selectedProgramIds.includes(p.id)
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "border-border hover:bg-muted"
+                  )}
+                >
+                  {p.name}
+                </button>
+                <Link
+                  href={`/programs/${p.id}`}
+                  target="_blank"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  title="Program detayını görüntüle"
+                >
+                  <ExternalLink size={13} />
+                </Link>
+              </div>
             ))}
           </div>
         )}
@@ -221,20 +235,18 @@ export function WorkoutLogger({ date, log, programs, exercises, onSaved }: Props
 
         return (
           <div key={le.exerciseId} className="rounded-lg border overflow-hidden">
-            <button
-              type="button"
+            <div
+              className={cn(
+                "w-full flex items-center justify-between px-4 py-3 transition-colors hover:bg-muted cursor-pointer",
+                exDone && "bg-green-50 dark:bg-green-950/30"
+              )}
               onClick={() =>
                 setCollapsed((prev) => ({
                   ...prev,
                   [le.exerciseId]: !prev[le.exerciseId],
                 }))
-              }
-              className={cn(
-                "w-full flex items-center justify-between px-4 py-3 text-left transition-colors hover:bg-muted",
-                exDone && "bg-green-50 dark:bg-green-950/30"
-              )}
-            >
-              <div className="flex items-center gap-2">
+            }>
+              <div className="flex items-center gap-2 flex-wrap">
                 <span className="font-medium text-sm">
                   {ex?.name ?? "Bilinmeyen"}
                 </span>
@@ -245,9 +257,18 @@ export function WorkoutLogger({ date, log, programs, exercises, onSaved }: Props
                 {exDone && (
                   <Badge className="text-xs bg-green-500">Tamamlandı</Badge>
                 )}
+                {ex && (
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); setSheetExerciseId(ex.id); }}
+                    className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    Nasıl yapılır?
+                  </button>
+                )}
               </div>
               {isCollapsed ? <ChevronDown size={16} /> : <ChevronUp size={16} />}
-            </button>
+            </div>
 
             {!isCollapsed && (
               <div className="flex flex-col gap-1 p-3">
@@ -290,5 +311,6 @@ export function WorkoutLogger({ date, log, programs, exercises, onSaved }: Props
         </Button>
       )}
     </div>
+    </>
   );
 }

@@ -4,6 +4,25 @@ import { programs, mapProgram } from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { getSession } from "@/lib/auth";
 
+export async function GET(
+  _request: NextRequest,
+  ctx: RouteContext<"/api/programs/[id]">
+) {
+  const session = await getSession();
+  if (!session) {
+    return NextResponse.json({ error: "Yetkisiz." }, { status: 401 });
+  }
+
+  const { id } = await ctx.params;
+  const row = db.select().from(programs).where(eq(programs.id, id)).get();
+
+  if (!row) {
+    return NextResponse.json({ error: "Program bulunamadı." }, { status: 404 });
+  }
+
+  return NextResponse.json(mapProgram(row));
+}
+
 export async function PUT(
   request: NextRequest,
   ctx: RouteContext<"/api/programs/[id]">
