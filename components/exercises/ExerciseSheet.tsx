@@ -66,7 +66,7 @@ export function ExerciseSheet({ exerciseId, onClose }: Props) {
 
   return (
     <Sheet open={open} onOpenChange={handleOpenChange}>
-      <SheetContent side="bottom" className="max-h-[70dvh] overflow-y-auto rounded-t-2xl px-6 pb-10">
+      <SheetContent side="bottom" className="max-h-[80dvh] overflow-y-auto rounded-t-2xl px-6 pb-10">
         {loading ? (
           <>
             <SheetTitle className="sr-only">Yükleniyor</SheetTitle>

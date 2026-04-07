@@ -5,10 +5,10 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SetRow } from "./SetRow";
-import { ChevronDown, ChevronUp, Plus, Save, ExternalLink } from "lucide-react";
+import { ChevronDown, ChevronUp, Plus, Save } from "lucide-react";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 import { ExerciseSheet } from "@/components/exercises/ExerciseSheet";
+import { ExerciseCrossfade } from "@/components/exercises/ExerciseCard";
 import type { Log, Program, Exercise, LogExercise, LogSet } from "@/lib/types";
 
 const MUSCLE_LABELS: Record<string, string> = {
@@ -184,28 +184,19 @@ export function WorkoutLogger({ date, log, programs, exercises, onSaved }: Props
         ) : (
           <div className="flex flex-wrap gap-2">
             {programs.map((p) => (
-              <div key={p.id} className="flex items-center gap-1">
-                <button
-                  type="button"
-                  onClick={() => toggleProgram(p.id)}
-                  className={cn(
-                    "px-3 py-1.5 rounded-full border text-sm font-medium transition-colors",
-                    selectedProgramIds.includes(p.id)
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "border-border hover:bg-muted"
-                  )}
-                >
-                  {p.name}
-                </button>
-                <Link
-                  href={`/programs/${p.id}`}
-                  target="_blank"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                  title="Program detayını görüntüle"
-                >
-                  <ExternalLink size={13} />
-                </Link>
-              </div>
+              <button
+                key={p.id}
+                type="button"
+                onClick={() => toggleProgram(p.id)}
+                className={cn(
+                  "px-3 py-1.5 rounded-full border text-sm font-medium transition-colors",
+                  selectedProgramIds.includes(p.id)
+                    ? "bg-primary text-primary-foreground border-primary"
+                    : "border-border hover:bg-muted"
+                )}
+              >
+                {p.name}
+              </button>
             ))}
           </div>
         )}
@@ -230,7 +221,7 @@ export function WorkoutLogger({ date, log, programs, exercises, onSaved }: Props
       {/* Egzersizler */}
       {logExercises.map((le) => {
         const ex = exerciseMap.get(le.exerciseId);
-        const isCollapsed = collapsed[le.exerciseId];
+        const isCollapsed = collapsed[le.exerciseId] ?? true;
         const exDone = le.sets.length > 0 && le.sets.every((s) => s.done);
 
         return (
@@ -243,7 +234,7 @@ export function WorkoutLogger({ date, log, programs, exercises, onSaved }: Props
               onClick={() =>
                 setCollapsed((prev) => ({
                   ...prev,
-                  [le.exerciseId]: !prev[le.exerciseId],
+                  [le.exerciseId]: !(prev[le.exerciseId] ?? true),
                 }))
             }>
               <div className="flex items-center gap-2 flex-wrap">
@@ -272,6 +263,20 @@ export function WorkoutLogger({ date, log, programs, exercises, onSaved }: Props
 
             {!isCollapsed && (
               <div className="flex flex-col gap-1 p-3">
+                {(ex?.images?.length ?? 0) > 0 && (
+                  <div className="mb-2">
+                    <ExerciseCrossfade images={ex!.images!} name={ex!.name} />
+                  </div>
+                )}
+                {!(ex?.images?.length) && ex?.mediaUrl && (
+                  <div className="rounded-md overflow-hidden bg-muted aspect-video mb-2">
+                    {ex.mediaType === "video" ? (
+                      <video src={ex.mediaUrl} controls className="w-full h-full object-cover" />
+                    ) : (
+                      <img src={ex.mediaUrl} alt={ex.name} loading="lazy" className="w-full h-full object-cover" />
+                    )}
+                  </div>
+                )}
                 <div className="grid grid-cols-[auto_1fr_1fr_auto_auto] gap-2 px-2 mb-1">
                   <span className="text-xs text-muted-foreground w-8 text-center">Set</span>
                   <span className="text-xs text-muted-foreground">Tekrar</span>
